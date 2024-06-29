@@ -65,3 +65,74 @@ export const create = async (req, res) => {
         });
     }
 }; 
+
+export const remove = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const doc = await PostModel.findById(postId);
+
+        if(!doc){
+            return res.status(404).json({
+                message: 'Статья не найдена',
+            });
+        }
+
+        if(doc.user != req.userId){
+            return res.status(403).json({
+                message: 'Чужую статью удалить нельзя',
+            });
+        }
+
+        await PostModel.findByIdAndDelete(postId);
+        
+        res.json({
+            success: true,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось удалить статью',
+        });
+    }
+};
+
+export const update = async (req, res) => {
+    try {
+        const postId = req.params.id;
+        const doc = await PostModel.findById(postId);
+
+        if(!doc){
+            return res.status(404).json({
+                message: 'Статья не найдена',
+            });
+        }
+
+        if(doc.user != req.userId){
+            return res.status(403).json({
+                message: 'Нельзя редактировать чужую статью',
+            });
+        }
+
+        await PostModel.updateOne(
+        {
+            _id: postId,
+        },
+        {
+            title: req.body.title,
+            text: req.body.text,
+            imageUrl: req.body.imageUrl,
+            user: req.userId,
+            tags: req.body.tags,
+        },
+        );
+
+        res.json({
+            success: true,
+        });        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'Не удалось обновить статью',
+        });
+    }
+}
