@@ -15,6 +15,6 @@ export const loginValidation = [
 export const postCreateValidation = [
     body('title', 'Длина заголовка минимум 3 символа (формат: строка)').isLength({ min: 3 }).isString(),
     body('text', 'Длина текста минимум 10 символов (формат: строка)').isLength({ min: 10 }).isString(),
-    body('tags', 'Неверный формат заголовка').optional(),
+    body('tags', 'Неверный формат заголовка').optional().isString(),
     body('imageUrl', 'Неверная ссылка на изображение').optional().isString(),
 ]
