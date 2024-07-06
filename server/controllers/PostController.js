@@ -30,6 +30,34 @@ export const getAll = async (req, res) => {
     }
 };
 
+export const getPopular = async(req, res) => {
+    try {
+        const posts = await PostModel.find().populate('user').sort({ viewsCount: -1}).exec();
+
+        res.json(posts);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Не удалось получить популярные посты",
+        });
+    }
+};
+
+export const getByTag = async(req, res) => {
+    try {
+        const tag = req.params.tag;
+        const posts = await PostModel.find({ tags: tag }).populate('user').exec();
+        
+        res.json(posts);
+        
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: "Не удалось получить статьи",
+        });
+    }
+}
+
 export const getOne = async (req, res) => {
     try {
         const postId = req.params.id;

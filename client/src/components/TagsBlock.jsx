@@ -9,15 +9,27 @@ import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 
 import { SideBlock } from "./SideBlock";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchPostsByTag } from "../redux/slices/posts";
+
 
 export const TagsBlock = ({ items, isLoading = true }) => {
+  const dispatch = useDispatch();
+  const handleClick = (event, name) => {
+    dispatch(fetchPostsByTag(name));
+    window.localStorage.removeItem('page');
+  }
+
+
   return (
     <SideBlock title="Тэги">
       <List>
         {(isLoading ? [...Array(5)] : items).map((name, i) => (
-          <a
+          <Link
             style={{ textDecoration: "none", color: "black" }}
-            href={`/tags/${name}`}
+            to={`/tags/${name}`}
+            onClick={(event) => handleClick(event, name)}
           >
             <ListItem key={i} disablePadding>
               <ListItemButton>
@@ -31,7 +43,7 @@ export const TagsBlock = ({ items, isLoading = true }) => {
                 )}
               </ListItemButton>
             </ListItem>
-          </a>
+          </Link>
         ))}
       </List>
     </SideBlock>
