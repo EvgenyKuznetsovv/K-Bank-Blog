@@ -3,8 +3,10 @@ import PostModel from '../models/Post.js';
 export const getLastTags = async (req, res) => {
     try {
         const posts = await PostModel.find().limit(5).exec();
-
-        const tags = posts.map((obj) => obj.tags).flat().slice(0, 5);
+        
+        const rawTags = posts.map((obj) => obj.tags).flat();
+        const uniqueTags = [...new Set(rawTags)];
+        const tags = uniqueTags.slice(0, 5);
         
         res.json(tags);
     } catch (err) {
@@ -17,7 +19,7 @@ export const getLastTags = async (req, res) => {
 
 export const getAll = async (req, res) => {
     try {
-        const posts = await PostModel.find().populate('user').exec();
+        const posts = await PostModel.find().populate('user').sort({ createdAt: -1}).exec();
  
         res.json(posts);
     } catch (err) {
@@ -66,7 +68,7 @@ export const create = async (req, res) => {
             title: req.body.title,
             text: req.body.text,
             imageUrl: req.body.imageUrl,
-            tags: req.body.tags.split(','),
+            tags: req.body.tags.split(/\s*,\s*/),
             user: req.userId,
         });
         
@@ -137,7 +139,7 @@ export const update = async (req, res) => {
             text: req.body.text,
             imageUrl: req.body.imageUrl,
             user: req.userId,
-            tags: req.body.tags.split(','),
+            tags: req.body.tags.split(/\s*,\s*/),
         },
         );
 
