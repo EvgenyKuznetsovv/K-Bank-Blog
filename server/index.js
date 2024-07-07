@@ -3,11 +3,11 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { registerValidation, loginValidation, postCreateValidation } from "./validations.js";
+import { registerValidation, loginValidation, postCreateValidation, commentCreateValidation } from "./validations.js";
 
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 
-import { PostController, UserController } from './controllers/index.js';
+import { PostController, UserController, CommentController } from './controllers/index.js';
 
 
 mongoose
@@ -52,6 +52,11 @@ app.get("/posts/tags/:tag", PostController.getByTag);
 app.post("/posts/", checkAuth, postCreateValidation, handleValidationErrors, PostController.create);
 app.delete("/posts/:id", checkAuth, PostController.remove);
 app.patch("/posts/:id", checkAuth, postCreateValidation, handleValidationErrors, PostController.update);
+
+app.get('/comments', CommentController.getLasts);
+app.get('/comments/:postId', CommentController.getCommentsByPostId);
+app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentController.create);
+app.delete('/comments/:id', checkAuth, CommentController.remove);
 
 app.listen(4444, (err) => {
     if(err) {
