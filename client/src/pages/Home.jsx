@@ -9,6 +9,7 @@ import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
 import { fetchPosts, fetchTags, fetchPopularPosts } from '../redux/slices/posts';
+import { fetchLastComments } from '../redux/slices/comments';
 import { Link } from 'react-router-dom';
 
 export const Home = () => {
@@ -16,9 +17,11 @@ export const Home = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.data);
   const { posts, tags } = useSelector(state => state.posts);
+  const comments = useSelector(state => state.comments);
 
   const isPostsLoading = posts.status == 'loading';
   const isTagsLoading = tags.status == 'loading';
+  const isCommentsLoading = comments.status == 'loading';
 
   const handleChangeTab = (event, newValue) => {
 	setTabValue(newValue);
@@ -46,15 +49,16 @@ export const Home = () => {
 		dispatch(fetchPopularPosts());
 		setTabValue(1);
 	}
-    //dispatch(fetchPosts());
+    
     dispatch(fetchTags());
+	dispatch(fetchLastComments());
   }, []);
 
   return (
 		<>
 			<Tabs
 				style={{ marginBottom: 15 }}
-				value={window.localStorage.getItem('page') ? tabValue: -1 }
+				value={window.localStorage.getItem('page') ? tabValue : -1}
 				aria-label='basic tabs example'
 				onChange={handleChangeTab}
 			>
@@ -76,7 +80,7 @@ export const Home = () => {
 								user={obj.user}
 								createdAt={obj.createdAt}
 								viewsCount={obj.viewsCount}
-								commentsCount={3}
+								commentsCount={obj.commentCount}
 								tags={obj.tags}
 								isEditable={userData?._id == obj.user._id}
 							/>
@@ -86,23 +90,8 @@ export const Home = () => {
 				<Grid xs={4} item>
 					<TagsBlock items={tags.items} isLoading={isTagsLoading} />
 					<CommentsBlock
-						items={[
-							{
-								user: {
-									fullName: 'Вася Пупкин',
-									avatarUrl: 'https://mui.com/static/images/avatar/1.jpg',
-								},
-								text: 'Это тестовый комментарий',
-							},
-							{
-								user: {
-									fullName: 'Иван Иванов',
-									avatarUrl: 'https://mui.com/static/images/avatar/2.jpg',
-								},
-								text: 'When displaying three lines or more, the avatar is not aligned at the top. You should set the prop to align the avatar at the top',
-							},
-						]}
-						isLoading={false}
+						items={comments.comments}
+						isLoading={isCommentsLoading}
 					/>
 				</Grid>
 			</Grid>
