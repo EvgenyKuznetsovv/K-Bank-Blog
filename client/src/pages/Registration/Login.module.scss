@@ -18,5 +18,14 @@
 .avatar {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.remove-button {
+  display: flex;
+  justify-content: center;
+  left: 100px; 
+  align-items: center; 
+  height: 7vh;
+  margin-bottom: 20px;
 }
