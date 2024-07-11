@@ -3,19 +3,11 @@ import axios from "../../axios";
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
     const { data } = await axios.get('/posts');
-	// for(let post of data){
-	// 	const commentsCount = await axios.get(`/comments/count/${post._id}`);
-	// 	post.commentsCount = commentsCount.data.count;
-	// }
     return data;
 });
 
 export const fetchPopularPosts = createAsyncThunk('/posts/fetchPopularPosts', async () => {
 	const { data } = await axios.get('/posts/popular');
-	// for (let post of data) {
-	// 	const commentsCount = await axios.get(`/comments/count/${post._id}`)
-	// 	post.commentsCount = commentsCount.data.count
-	// }
 	return data;
 });
 
