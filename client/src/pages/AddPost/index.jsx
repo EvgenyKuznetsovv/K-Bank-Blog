@@ -15,6 +15,7 @@ export const AddPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const isAuth = useSelector(selectIsAuth);
+  const [errors, setErrors] = React.useState([]);
   const [isLoading, setLoading] = useState(false);
   const [text, setText] = React.useState('');
   const [title, setTitle] = React.useState('');
@@ -66,6 +67,11 @@ export const AddPost = () => {
 
     } catch (err) {
       console.warn(err);
+      let errs = [];
+      err.response.data.forEach((error) => {
+        errs.push(error.msg);
+      });
+      setErrors(errs);
       alert("Ошибка при создании статьи");
     }
   };
@@ -159,6 +165,13 @@ export const AddPost = () => {
 				onChange={onChange}
 				options={options}
 			/>
+			{errors.length > 0 && (
+				<div className={styles.errors}>
+					{errors.map((error, index) => (
+						<div key={index}>{error}</div>
+					))}
+				</div>
+			)}
 			<div className={styles.buttons}>
 				<Button onClick={onSubmit} size='large' variant='contained'>
 					{isEditing ? 'Cохранить' : 'Опубликовать'}

@@ -25,7 +25,14 @@ export const Login = () => {
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
 
-    if(!data.payload){
+    if('error' in data) {
+	  console.log(data);
+	  if (data.payload.message) {
+			alert(data.payload.message);	
+		}
+	  data.payload.forEach((error)=>{
+		setError(error.path, {type: 'server', message: error.msg});
+	  });
       return alert("Не удалось авторизоваться!");
     }
 

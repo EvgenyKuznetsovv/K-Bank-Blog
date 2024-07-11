@@ -22,8 +22,7 @@ export const Registration = () => {
     defaultValues: {
       fullName: '',
       email: '',
-      password: '',
-	  avatarUrl: ''
+      password: ''
     },
     mode: 'onChange',
   });
@@ -47,14 +46,22 @@ export const Registration = () => {
   }
 
   const onSubmit = async (values) => {
-	values.avatarUrl = imageUrl;
+	if(!(imageUrl == "")){
+		values.avatarUrl = imageUrl;
+	} 
 
     const data = await dispatch(fetchRegister(values));
 
-    if(!data.payload){
-      console.log(data);
-      return alert("Не удалось зарегистрироваться!");
-    }
+    if ('error' in data) {
+		console.log(data);
+		if (data.payload.message) {
+			alert(data.payload.message)
+		}
+		data.payload.forEach((error) => {
+			setError(error.path, {type: 'server', message: error.msg});
+		});
+		return alert('Не удалось зарегистрироваться!');
+	}
 
     if('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);

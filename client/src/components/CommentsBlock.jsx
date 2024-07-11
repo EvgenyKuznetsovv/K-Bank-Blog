@@ -17,8 +17,6 @@ import { fetchRemoveComment } from "../redux/slices/comments";
 export const CommentsBlock = ({ items, children, isLoading = true, isFullPost=false, decreaseCommentCount}) => {
 	const dispatch = useDispatch();
 	const { _id } = useSelector(state => state.auth.data) || "";
-	console.log( _id );
-	console.log(items);
 
 	const onClickRemove = (id) => {
 		try {
