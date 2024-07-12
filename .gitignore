@@ -87,12 +87,12 @@ web_modules/
 .next
 out
 
+# static
+**/uploads/
+
 # Nuxt.js build / generate output
 .nuxt
 dist
-
-# static
-/uploads
 
 # Gatsby files
 .cache/

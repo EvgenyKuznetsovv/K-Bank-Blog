@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import CommentModel from "./Comment.js";
 
 const PostSchema = new mongoose.Schema({
     title: {
@@ -33,5 +34,16 @@ const PostSchema = new mongoose.Schema({
     timestamps: true,
 },
 );
+
+// PostSchema.pre('remove', async function (next) {
+//     try {
+//         await CommentModel.deleteMany({ post: this._id });
+//         console.log("Variant 1")
+//         next(); 
+//     } catch (err) {
+//         console.log("error: ", err);
+//         next(err);
+//     }
+// });
 
 export default mongoose.model('Post', PostSchema);

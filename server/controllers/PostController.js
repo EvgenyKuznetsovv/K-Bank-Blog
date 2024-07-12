@@ -1,11 +1,12 @@
 import PostModel from '../models/Post.js';
+import CommentModel from '../models/Comment.js'
 
 export const getLastTags = async (req, res) => {
     try {
         const posts = await PostModel.find().sort({ createdAt: -1}).limit(5).exec();
         
         const rawTags = posts.map((obj) => obj.tags).flat();
-        const uniqueTags = [...new Set(rawTags)];
+        const uniqueTags = [...new Set(rawTags)].filter((tag) => tag.trim() != "");
         const tags = uniqueTags.slice(0, 5);
         
         res.json(tags);
@@ -116,19 +117,14 @@ export const remove = async (req, res) => {
         const postId = req.params.id;
         const doc = await PostModel.findById(postId);
 
-        if(!doc){
-            return res.status(404).json({
-                message: 'Статья не найдена',
-            });
-        }
-
         if(doc.user != req.userId){
             return res.status(403).json({
                 message: 'Чужую статью удалить нельзя',
             });
         }
-
+        
         await PostModel.findByIdAndDelete(postId);
+        await CommentModel.deleteMany({ post: postId });
         
         res.json({
             success: true,

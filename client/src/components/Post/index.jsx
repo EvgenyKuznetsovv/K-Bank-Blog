@@ -11,7 +11,8 @@ import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
-import { fetchRemovePost } from '../../redux/slices/posts';
+import { fetchRemovePost, fetchTags } from '../../redux/slices/posts';
+import { fetchLastComments } from '../../redux/slices/comments';
 
 export const Post = ({
   id,
@@ -32,9 +33,18 @@ export const Post = ({
     return <PostSkeleton />;
   }
 
-  const onClickRemove = () => {
+  const onClickRemove = async () => {
     if(window.confirm("Вы действительно хотите удалить статью?")){
-      dispatch(fetchRemovePost(id))
+      try {
+        dispatch(fetchRemovePost(id)).then(()=>{
+          setTimeout(() => {
+            dispatch(fetchTags())
+						dispatch(fetchLastComments())
+          }, 300);
+        });
+      } catch (err) {
+        console.warn(err);
+      }
     }
   };
 
@@ -67,9 +77,10 @@ export const Post = ({
           </h2>
           <ul className={styles.tags}>
             {tags.map((name) => (
+              name.trim() && (
               <li key={name}>
                 <Link to={`/tag/${name}`}>#{name}</Link>
-              </li>
+              </li>)
             ))}
           </ul>
           {children && <div className={styles.content}>{children}</div>}
