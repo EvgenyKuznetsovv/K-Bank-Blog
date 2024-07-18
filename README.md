@@ -43,14 +43,14 @@ ___
    + **updatedAt** (Date, not null)
 ___
 ## Screenshots:
-![home](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/Home.jpg)
+![home](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/Home.jpg)
 
-![fullPost1](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/full.jpg)
+![fullPost1](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/full.jpg)
 
-![fullPost2](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/FULL2.jpg)
+![fullPost2](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/FULL2.jpg)
 
-![createPost](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/createPost.jpg)
+![createPost](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/createPost.jpg)
 
-![Post](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/post.jpg)
+![Post](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/post.jpg)
 
-![register](https://github.com/EvgenyKuznetsov153502/Kuznetsov_153502_labs_2sem_proga/blob/master/register.jpg)
+![register](https://github.com/EvgenyKuznetsovv/Kuznetsov_153502_labs_2sem_proga/blob/master/register.jpg)
